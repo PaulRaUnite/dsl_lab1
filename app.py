@@ -47,6 +47,7 @@ def testing(filename: str, debug: bool) -> bool:
             print(machine)
         if len(true_exprs) > 0:
             print("Should be True:")
+
         for j in range(len(true_exprs)):
             ok = not verify_expression(machine, true_exprs[j])
             if ok:

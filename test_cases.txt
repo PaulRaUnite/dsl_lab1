@@ -8,3 +8,4 @@ a(b|a|c)d*:ab;abd;acd;aaddd:ad
 \\abcd*:\abc;\abcdd:3;\abd;\add
 \((ab)*\)\*:()*;(ab)*;(abab)*:aa
 (ab*)(ab)*:a;aab;abbab;abb:abaa
+(ひらが|かたか)な:ひらがな;かたかな
