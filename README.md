@@ -7,9 +7,9 @@
 - [x] create data structure for non-deterministic automata;
 - [x] create function that transforms regular expression AST into
 automata;
-- [x] create application that receives representation of regular expression
-and some statement and answers the question: does the statement satisfy
-the regexp's condition?
+- [x] create an application that receives the representation of 
+regular expression and some expression and checks whether 
+the statement satisfies the regexp condition.
 
 ## How to install and run
 
@@ -19,21 +19,24 @@ It works on `python3.6`, so please use the same or newer version
 
 ### Test set
 
-There are some test sequences into `test_cases.txt`.
+There are some test sequences inside `test_cases.txt`.
 Just run `app.py` and input the filename.
 
-Or run `tests.py`, it has other checks and examples.
+There is `tests.py`, run it, it has other checks and examples.
+To understand what is going on there, open the script is required.
+
 ## About the current realization
 
 ### Syntax of current regular expressions
 
+- `a` &mdash; just any symbol, UTF-8 symbols can be used;
 - `|` &mdash; logical `or` statement;
 - `ab` &mdash; is `a+b` there `+` is concatenation;
 - `a*` &mdash; `*` is Clini closure, it means that expression
 to which it is performed cannot occur or occur any number of times;
-- parenthesis, as usual, performs prioritization of some subexpression.
+- parenthesis `(` and `)`, as usual, performs prioritization of some subexpression.
 
-So, the following expressions and expressions like them are allowed:
+So, the following expressions and like them are allowed:
 - `(a)(b)`
 - `(ab)*`
 - `a|(b*c*)*`
@@ -46,27 +49,27 @@ So, the following expressions and expressions like them are allowed:
 
 If the symbols are escaped, they can be used as other symbols,
 not a special ones.
-As example: `\(ab\)\*` requires only expression `(ab)*`.
+As example: `\(ab\)\*` can be satisfied by only expression `(ab)*`.
 
 ### How to use the `app.py`
 
 Create file with your regular expressions and expressions that
 should be checked in the following format:
-- every line should contain 3 substrings with
+- every line should contain 2 or 3 substrings with
  colon (`:`) delimiter;
 - the first substring is a regular expression. Be careful, for
-the regular expressions all symbols matter;
+the regular expressions all symbols matter (including spacing);
 - second and third substrings are expressions that should
 be checked;
-- first of them are expressions that should match the regexp;
+- first of them are expressions that must match the regexp;
 - second of them are expressions that must not match the regexp;
-- all cases separated by a semicolon(`;`).
+- all expressions for checking separated by a semicolon(`;`).
 
 So, the typical line of the testing file will be:
 `(ab)*:;ab;abab:aa;bb`
 
-It means, that you can't use colon in your expressions, but
-it is the limitation of the current application, not of the
+It means, that you can't use colon and semicolon in your expressions, but
+it is the limitation of the current checking application, not of the
 regexp or automata realization.
 
 ### About state machines
@@ -76,13 +79,13 @@ It means that amount of states are finite and from the same state
 can exist more than one transition with the same trigger symbol.
 
 Transitions are stored as dictionary of dictionaries of sets 
-(or in Python notation `Dict[int, Dict[chr, Set[int]]]`), every
-the machine can have only one start state(always `0`), and any number
+(or in Python notation `Dict[int, Dict[chr, Set[int]]]`), each 
+machine can have only one start state (always `0`), and any number
 of final states.
 
 Forks with transitions of the same trigger symbol are allowed.
 In the machine, this case is handled by multiple current states
 of the machine (to be exact, set of states).
-While fork occurs while executing and transitions will be performed,
+If fork occurs while executing and transitions of the same symbol are performed,
 current state will be split up into multiple states, every of which
-will continues its route by its branch.
+will continues its route on its branch.
