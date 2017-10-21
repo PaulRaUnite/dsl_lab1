@@ -1,0 +1,10 @@
+a*b*c*d:abcd;abd;bcd;acd;aad;aabbd;aaccd:a;b;c
+ab*c*d:abcd;ad;abd;acd:aaa
+a|b:a;b:aa;bb
+ab*:a;ab;abbb:aa
+d(a|b)e*(g|k):dag;dbeek;dbg:a
+a(b|a|c)d*:ab;abd;acd;aaddd:ad
+(ab)*:ab;abab:aa;bb
+\\abcd*:\abc;\abcdd:3;\abd;\add
+\((ab)*\)\*:()*;(ab)*;(abab)*:aa
+(ab*)(ab)*:a;aab;abbab;abb:abaa
