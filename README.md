@@ -7,13 +7,13 @@
 - [x] create data structure for non-deterministic automata;
 - [x] create function that transforms regular expression AST into
 automata;
-- [x] create an application that receives the representation of 
-regular expression and some expression and checks whether 
-the statement satisfies the regexp condition.
+- [x] create an application that receives the representation of regular expression and some expression and checks whether the statement satisfies the regexp condition.
 
 ## How to install and run
 
-Clone/download the repository and run `python app.py`.
+Clone/download the repository and execute `python app.py`.
+There is no external dependencies, only standard types and
+type annotations.
 
 It works on `python3.6`, so please use the same or newer version
 
@@ -49,7 +49,7 @@ So, the following expressions and like them are allowed:
 
 If the symbols are escaped, they can be used as other symbols,
 not a special ones.
-As example: `\(ab\)\*` can be satisfied by only expression `(ab)*`.
+As example: regexp `\(ab\)\*` can be satisfied by only expression `(ab)*`.
 
 ### How to use the `app.py`
 
@@ -69,7 +69,7 @@ be checked;
 So, the typical line of the testing file will be:
 `(ab)*:;ab;abab:aa;bb` &mdash; regexp + true + false expressions
 
-or 
+or
 
 `hii*:hi;hiiii` &mdash; regexp + true expressions
 
@@ -87,8 +87,8 @@ regexp or automata realization.
 It means that amount of states are finite and from the same state
 can exist more than one transition with the same trigger symbol.
 
-Transitions are stored as dictionary of dictionaries of sets 
-(or in Python notation `Dict[int, Dict[chr, Set[int]]]`), each 
+Transitions are stored as dictionary of dictionaries of sets
+(or in Python notation `Dict[int, Dict[chr, Set[int]]]`), each
 machine can have only one start state (always `0`), and any number
 of final states.
 
