@@ -27,10 +27,12 @@ def testing(filename: str, debug: bool) -> bool:
         regexp: str = test_case[0]
         true_exprs: List[str] = []
         if len(test_case) > 1:
-            true_exprs = test_case[1].split(';')
+            if len(test_case[1]) > 0:
+                true_exprs = test_case[1].split(';')
         false_exprs: List[str] = []
         if len(test_case) > 2:
-            false_exprs = test_case[2].split(';')
+            if len(test_case[2]) > 0:
+                false_exprs = test_case[2].split(';')
 
         if (len(true_exprs) + len(false_exprs)) == 0:
             print(true_exprs, false_exprs, test_case)
@@ -49,12 +51,11 @@ def testing(filename: str, debug: bool) -> bool:
             print("Should be True:")
 
         for j in range(len(true_exprs)):
-            ok = not verify_expression(machine, true_exprs[j])
-            if ok:
+            ok = verify_expression(machine, true_exprs[j])
+            if not ok:
                 all_passed = False
-                print("Fail: #{:03} False: {}.".format(j, true_exprs[j]))
-            else:
-                print("Pass: #{:03}  True: {}.".format(j, true_exprs[j]))
+
+            print("#{:03} {:>5}: {}.".format(j, 'True' if ok else 'False', true_exprs[j]))
 
         if len(false_exprs) > 0:
             print("Should be False:")
@@ -63,9 +64,8 @@ def testing(filename: str, debug: bool) -> bool:
             ok = verify_expression(machine, false_exprs[j])
             if ok:
                 all_passed = False
-                print("Fail: #{:03}  True: {}.".format(j, false_exprs[j]))
-            else:
-                print("Pass: #{:03} False: {}.".format(j, false_exprs[j]))
+
+            print("#{:03} {:>5}: {}.".format(j, 'True' if ok else 'False', false_exprs[j]))
     return all_passed
 
 
