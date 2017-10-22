@@ -64,22 +64,23 @@ be checked;
 - first of them are expressions that must match the regexp;
 - second of them are expressions that must not match the regexp;
 - all expressions for checking separated by a semicolon(`;`).
-- you can keep the first list of expressions empty, but colons should be.
+- you can keep the first list of expressions empty, but colons should be placed.
 
-So, the typical line of the testing file will be:
+So, the typical line of the testing file can be:
+
 `(ab)*:;ab;abab:aa;bb` &mdash; regexp + true + false expressions
 
 or
 
-`hii*:hi;hiiii` &mdash; regexp + true expressions
+`hii*:hi;hiiii` &mdash; regexp + only true expressions
 
 or
 
-`ab*::b;bb;ba` &mdash; regexp + empty + false expressions
+`ab*::b;bb;ba` &mdash; regexp + empty + only false expressions
 
 It means, that you can't use colon and semicolon in your expressions, but
-it is the limitation of the current checking application, not of the
-regexp or automata realization.
+it is the limitation of the current verifying application, not of the
+regexp or state machine implementation.
 
 ### About state machines
 
