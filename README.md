@@ -30,9 +30,9 @@ To understand what is going on there, open the script is required.
 ### Syntax of the regular expressions
 
 - `a` &mdash; just any symbol, UTF-8 symbols can be used;
-- `|` &mdash; logical `or` statement;
-- `ab` &mdash; is `a+b` there `+` is concatenation;
-- `a*` &mdash; `*` is Clini closure, it means that expression
+- `|` &mdash; logical `or` statement (priority __1__);
+- `ab` &mdash; is `a+b` there `+` is concatenation (priority __2__);
+- `a*` &mdash; `*` is Clini closure (priority __3__), it means that expression
 to which it is performed cannot occur or occur any number of times;
 - parenthesis `(` and `)`, as usual, performs prioritization of some subexpression.
 
@@ -99,3 +99,19 @@ of the machine (to be exact, set of states).
 If fork occurs while executing and transitions of the same symbol are performed,
 current state will be split up into multiple states, every of which
 will continues its route on its branch.
+
+### About regular expression parsing
+
+After [scanning](/ast/scanner.py) (it looks really simple),
+parsing is performed. List of tokens is recursively separated by
+one of the above operators with respect to their priority.
+
+__Note__: 
+All the actions occur on the "first layer" of the expression,
+and here is what I mean.
+
+Let's say that we have regular expression `(ab)|(c|d)`.
+The "first layer" of the expression is `group1|group2`, where
+`group1` is `(ab)`, `group2` is `(c|d)` and `|` is binary operator.
+Every iteration of the algorithm must work only with the parts of
+the first layer (operations inside groups are not visible by algorithm).
