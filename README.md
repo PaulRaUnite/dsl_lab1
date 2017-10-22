@@ -1,4 +1,4 @@
-# DSL work #1
+# DSL course: individual work #1
 
 ## Tasks
 
@@ -25,9 +25,9 @@ Just run `app.py` and input the filename.
 There is `tests.py`, run it, it has other checks and examples.
 To understand what is going on there, open the script is required.
 
-## About the current realization
+## About the implementation
 
-### Syntax of current regular expressions
+### Syntax of the regular expressions
 
 - `a` &mdash; just any symbol, UTF-8 symbols can be used;
 - `|` &mdash; logical `or` statement;
@@ -64,9 +64,18 @@ be checked;
 - first of them are expressions that must match the regexp;
 - second of them are expressions that must not match the regexp;
 - all expressions for checking separated by a semicolon(`;`).
+- you can keep the first list of expressions empty, but colons should be.
 
 So, the typical line of the testing file will be:
-`(ab)*:;ab;abab:aa;bb`
+`(ab)*:;ab;abab:aa;bb` &mdash; regexp + true + false expressions
+
+or 
+
+`hii*:hi;hiiii` &mdash; regexp + true expressions
+
+or
+
+`ab*::b;bb;ba` &mdash; regexp + empty + false expressions
 
 It means, that you can't use colon and semicolon in your expressions, but
 it is the limitation of the current checking application, not of the
