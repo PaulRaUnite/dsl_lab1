@@ -9,3 +9,4 @@ a(b|a|c)d*:ab;abd;acd;aaddd:ad
 \((ab)*\)\*:()*;(ab)*;(abab)*:aa
 (ab*)(ab)*:a;aab;abbab;abb:abaa
 (ひらが|かたか)な:ひらがな;かたかな
+hii*::hello
