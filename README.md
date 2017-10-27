@@ -11,13 +11,13 @@ automata;
 
 ## How to install and run
 
-Clone/download the repository and execute `python app.py`. There is no external dependencies, only standard types and type annotations.
+Clone/download the repository and execute `python lab1_app.py`. There is no external dependencies, only standard types and type annotations.
 
 It works on `python3.6`, so please use the same or newer version.
 
 ### Test set
 
-There are some test sequences inside `test_cases.txt`. Just run `app.py` and input the filename.
+There are some test sequences inside `test_cases.txt`. Just run `lab1_app.py` and input the filename.
 
 There is `tests.py`, run it, it has other checks and examples. To understand what is going on there, open the script is required.
 
