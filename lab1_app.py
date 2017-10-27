@@ -1,7 +1,7 @@
 from typing import List
 
 import ast
-from automata import Automata
+from automata import NDAutomata
 from tranlator import translate
 from util import verify_expression
 
@@ -39,7 +39,7 @@ def testing(filename: str, debug: bool) -> bool:
             raise AppError("There should be at least one expression.")
 
         tree: ast.AST = ast.parse(regexp)
-        machine: Automata = translate(tree)
+        machine: NDAutomata = translate(tree)
 
         print()
         print(regexp)

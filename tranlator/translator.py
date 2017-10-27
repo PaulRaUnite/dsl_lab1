@@ -1,8 +1,8 @@
 from ast import Node, AST
-from automata import Automata, ValueAutomata, CliniAutomata, ConcatenationAutomata, DecisionAutomata
+from automata import NDAutomata, ValueAutomata, CliniAutomata, ConcatenationAutomata, DecisionAutomata
 
 
-def translate_node(node: Node) -> Automata:
+def translate_node(node: Node) -> NDAutomata:
     """"""
     children: tuple = node.children()
 
@@ -26,6 +26,6 @@ def translate_node(node: Node) -> Automata:
         raise Exception("Too much arguments, only 1 and 2-ary operations are allowed.")
 
 
-def translate(ast: AST) -> Automata:
+def translate(ast: AST) -> NDAutomata:
     """Translate AST to non-deterministic finite automata."""
     return translate_node(ast.root())

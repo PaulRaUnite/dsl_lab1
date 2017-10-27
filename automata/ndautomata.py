@@ -1,13 +1,13 @@
 from typing import Callable, Dict, Set
 
-__all__ = ["Automata", "ValueAutomata", "ConcatenationAutomata", "DecisionAutomata", "CliniAutomata"]
+__all__ = ["NDAutomata", "ValueAutomata", "ConcatenationAutomata", "DecisionAutomata", "CliniAutomata"]
 
 
 # Transitions = Dict[int, Dict[str, Set[int]]]
 
 
-class Transitions:
-    """Transitions is a wrapper for a graph of moves over automata."""
+class NDTransitions:
+    """Transitions is a wrapper for a graph of moves over non-deterministic state machine."""
 
     def __init__(self, d: Dict[int, Dict[str, Set[int]]]):
         self.graph = d
@@ -49,7 +49,7 @@ class Transitions:
         Doesn't work if src == dst.
         """
 
-        if type(dst) != Transitions:
+        if type(dst) != NDTransitions:
             raise TypeError("dst must be Transitions.")
         if self is dst:
             raise Exception("Can't perform transformation on the same collection.")
@@ -58,7 +58,7 @@ class Transitions:
             dst.add(trans_orig(origin), symb, trans_end(end))
 
 
-class Automata:
+class NDAutomata:
     """
     Automata is a class that represents non-deterministic finite automata.
 
@@ -66,9 +66,9 @@ class Automata:
     point in state 0 and can have multiple final states.
     """
 
-    def __init__(self, final: Set[int], trans: Transitions):
+    def __init__(self, final: Set[int], trans: NDTransitions):
         self.states: Set[int] = {0}
-        self.trans: Transitions = trans
+        self.trans: NDTransitions = trans
         self.final: Set[int] = final
         max_state: int = 1
 
@@ -111,15 +111,15 @@ class Automata:
                "bigst: {}".format(self.states, self.trans, self.final, self.biggest_state)
 
 
-class ValueAutomata(Automata):
+class ValueAutomata(NDAutomata):
     """ValueAutomata represents simple automata of one transition of some symbol."""
 
     def __init__(self, s: str):
-        super().__init__({1}, Transitions({0: {s: {1}}}))
+        super().__init__({1}, NDTransitions({0: {s: {1}}}))
 
 
-class ConcatenationAutomata(Automata):
-    def __init__(self, left: Automata, right: Automata):
+class ConcatenationAutomata(NDAutomata):
+    def __init__(self, left: NDAutomata, right: NDAutomata):
         """Constructs new automata using concatenation"""
         left.reset()
         right.reset()
@@ -133,9 +133,9 @@ class ConcatenationAutomata(Automata):
         # value which should be added to all states of right automata
         shift: int = left.biggest_state
         # resulted automata
-        result: Transitions = Transitions({})
+        result: NDTransitions = NDTransitions({})
         # Connection between two automata.
-        connections: Transitions = Transitions({})
+        connections: NDTransitions = NDTransitions({})
 
         for [r_orig, r_symb, r_end] in right.trans:
             if r_orig == 0:
@@ -167,14 +167,14 @@ class ConcatenationAutomata(Automata):
         super().__init__(new_finals, result)
 
 
-class DecisionAutomata(Automata):
-    def __init__(self, left: Automata, right: Automata):
+class DecisionAutomata(NDAutomata):
+    def __init__(self, left: NDAutomata, right: NDAutomata):
         """Constructs new automata using disjunction."""
         left.reset()
         right.reset()
 
         shift: int = left.biggest_state + 1
-        result: Transitions = Transitions({})
+        result: NDTransitions = NDTransitions({})
         left.trans.map(result, lambda x: x, lambda x: x)
 
         right.trans.map(result, lambda x: x + shift, lambda x: x + shift)
@@ -190,12 +190,12 @@ class DecisionAutomata(Automata):
         super().__init__(new_finals, result)
 
 
-class CliniAutomata(Automata):
-    def __init__(self, oper: Automata):
+class CliniAutomata(NDAutomata):
+    def __init__(self, oper: NDAutomata):
         """Constructs new automata using Clini closure."""
         oper.reset()
 
-        result: Transitions = Transitions({})
+        result: NDTransitions = NDTransitions({})
         oper.trans.map(result, lambda x: x, lambda x: 0 if x in oper.final else x)
 
         oper.trans.map(result, lambda x: x, lambda x: x)
