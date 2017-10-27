@@ -9,6 +9,7 @@ expressions = ["d(a|b)e*(g|k)", "aa*a|(aa*)***", "**", "a|", "*|a", "(acd(a)*|a)
                "a|a|a|(ab)*", "(a)*(a)*", "aa", "(ab)*", "a|(a*b*)*", "((ab)"]
 
 for expression in expressions:
+    print("{:20} -> ".format(expression), end="")
     try:
         print(ast.parse(expression))
     except Exception as e:
