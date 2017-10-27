@@ -77,13 +77,17 @@ def next_op(tokens: list) -> (list, str, list):
     else:
         pos = len(tokens)
 
-    parenthesis_level = 0
-    for i in range(len(tokens)):
-        if is_spec_symb(tokens[i], '('):
-            parenthesis_level += 1
-
-    if parenthesis_level == 1 and is_spec_symb(tokens[0], '(') and is_spec_symb(tokens[-1], ')'):
-        return next_op(tokens[1:-1])
+    if is_spec_symb(tokens[0], '(') and is_spec_symb(tokens[-1], ')'):
+        par = 0
+        for s in tokens[1:-1]:
+            if is_spec_symb(s, '('):
+                par += 1
+            if is_spec_symb(s, ')'):
+                par -= 1
+            if par < 0:
+                break
+        if par == 0:
+            return next_op(tokens[1:-1])
 
     left = tokens[:pos]
     if len(left) == len(tokens):
@@ -98,6 +102,13 @@ def parse_node(tokens: list) -> Node:
     """Returns AST tree that represents the tokens."""
     left, op_type, right = next_op(tokens)
 
+    # print("left ", end="")
+    # for s in left:
+    #     print(s, end=" ")
+    # print("right ", end="")
+    # for s in right:
+    #     print(s, end=" ")
+    # print()
     if op_type == "+":
         return Concatenation(parse_node(left), parse_node(right))
     elif op_type == "|":
