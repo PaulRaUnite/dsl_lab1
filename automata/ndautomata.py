@@ -3,9 +3,6 @@ from typing import Callable, Dict, Set
 __all__ = ["NDAutomata", "ValueAutomata", "ConcatenationAutomata", "DecisionAutomata", "CliniAutomata"]
 
 
-# Transitions = Dict[int, Dict[str, Set[int]]]
-
-
 class NDTransitions:
     """Transitions is a wrapper for a graph of moves over non-deterministic state machine."""
 
