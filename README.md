@@ -95,11 +95,11 @@ There is some function, that recursively performs the following steps:
 #### About algorithms of machine joining
 
 At first, let me define all sets:
-- &Sigma; is vocabulary of symbols;
-- S is a set of all states;
-- I is a set of all initial(start) states: `I ∈ S`;
-- F is a set of all final states: `F ∈ S`;
-- T is a set of all transitions: <code>T ∈ S x &Sigma; x S</code>
+- <code>&Sigma;</code> is a vocabulary of symbols;
+- `S` is a set of states;
+- `I` is a set of initial(start) states, where `I ∈ S`;
+- `F` is a set of final states, where `F ∈ S`;
+- `T` is a set of transitions, where <code>T ∈ S x &Sigma; x S</code>
 
 So, following rules are applied to join state machines each other:
 
