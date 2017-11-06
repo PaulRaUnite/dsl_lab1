@@ -10,3 +10,4 @@ a(b|a|c)d*:ab;abd;acd;aaddd:ad
 (ab*)(ab)*:a;aab;abbab;abb:abaa
 (ひらが|かたか)な:ひらがな;かたかな
 hii*::hello
+b(a*|b*|c*):baa;bbbb;bccc:bab;bac;bbc;bac;abc
