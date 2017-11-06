@@ -1,4 +1,4 @@
-from .ndautomata import *
+from .nondetautomata import *
 
 __all__ = []
-__all__ += ndautomata.__all__
+__all__ += nondetautomata.__all__
