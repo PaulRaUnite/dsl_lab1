@@ -67,19 +67,45 @@ It means, that you can't use colon and semicolon in your expressions, but it is 
 
 ### About state machines
 
-`automata` package implements non-deterministic finite state machine.
-It means that amount of states are finite and from the same state
-can exist more than one transition with the same trigger symbol.
+`automata` package implements non-deterministic finite state machine. It means that amount of states are finite and from the same state can exist more than one transition with the same trigger symbol.
 
-Transitions are stored as dictionary of dictionaries of sets (or in Python notation `Dict[int, Dict[chr, Set[int]]]`), each machine can have only one start state (always `0`), and any number of final states.
+Transitions are stored as dictionary of dictionaries of sets (or in Python notation `Dict[int, Dict[chr, Set[int]]]`), each machine can have any number of start and final states.
 
-Forks with transitions of the same trigger symbol are allowed. In the machine, this case is handled by multiple current states of the machine (to be exact, set of states). If fork occurs while executing and transitions of the same symbol are performed, current state will be split up into multiple states, every of which will continues its route on its branch.
+Forks with transitions of the same trigger symbol are allowed, of course. In the machine, this case is handled by multiple current states of the machine (to be exact, set of states). If fork occurs while executing and a few transitions of the same symbol are performed, current state will be split up into multiple states, every of which will continues its "route" on its branch.
 
 ### About regular expression parsing
 
-After [scanning](/ast/scanner.py) (it looks really simple), parsing is performed. List of tokens is recursively separated by one of the above operators with respect to their priority.
+After [scanning](/ast/scanner.py) (it looks really simple), parsing is performed. List of tokens is recursively separated by one of the above operators with respect to their priority and parenthesis.
 
 __Note__: 
 All the actions occur on the "first layer" of the expression, and here is what I mean.
 
-Let's say that we have regular expression `(ab)|(c|d)`. The "first layer" of the expression is `group1|group2`, where `group1` is `(ab)`, `group2` is `(c|d)` and `|` is binary operator. Every iteration of the algorithm must work only with the parts of the first layer (operations inside groups are not visible by algorithm).
+Let's say that we have regular expression `(ab)|(c|d)`. The "first layer" of the expression is `group1|group2`, where `group1` is `(ab)`, `group2` is `(c|d)` and `|` is binary operator. Every iteration of the algorithm works only with parts of the first layer (operators inside groups are not visible by algorithm).
+
+### About translating
+
+There is some function, that recursively performs the following steps:
+- receive children for the following nodes;
+- if there are:
+    - 0 child: it must be leaf with symbol;
+    - 1 child: it must be only clini node;
+    - 2 children: it can be "OR" as well as "AND";
+- **here recursy goes**: it performs appropriate class function from the non-deterministic automata class: `by_value` for leaf symbols, `by_concatenation` or `by_decision` for machines of its children and `by_clini` for only one child.
+
+#### About algorithms of machine joining
+
+At first, let me define all sets:
+- &Sigma; is vocabulary of symbols;
+- S is a set of all states;
+- I is a set of all initial(start) states: `I ∈ S`;
+- F is a set of all final states: `F ∈ S`;
+- T is a set of all transitions: <code>T ∈ S x &Sigma; x S</code>
+
+So, following rules are applied to join state machines each other:
+
+|RegExp                 | Machine creation |
+|-----------------------|------------------|
+| <code>a ∈ &Sigma;</code>:<br><code>a ∈ RegExp</code>| <code>S = {s<sub>0</sub>, s<sub>1</sub>}</code>, <code>I = {s<sub>0</sub>}</code><br><code>F = {s<sub>1</sub>}</code>, <code>T = {<s<sub>0</sub>, a, s<sub>1</sub>>}</code>|
+| <code>e<sub>1</sub> ∈ RegExp</code>, <code>e<sub>2</sub> ∈ RegExp</code>:<br><code>(e<sub>1</sub> OR e<sub>2</sub>) ∈ RegExp</code> | <code>S = S<sub>1</sub> + S<sub>2</sub></code>, <code>I = I<sub>1</sub> + I<sub>2</sub></code><br><code>F = F<sub>1</sub> + F<sub>2</sub></code>, <code>T = T<sub>1</sub> + T<sub>2</sub></code>|
+| <code>e<sub>1</sub> ∈ RegExp</code>, <code>e<sub>2</sub> ∈ RegExp</code>:<br><code>(e<sub>1</sub> AND e<sub>2</sub>) ∈ RegExp</code> | <code>S = S<sub>1</sub> + S<sub>2</sub></code>, <code>I = I<sub>1</sub> + I<sup>'</sup></code><br><code>F = F<sub>2</sub></code>, <code>T = T<sub>1</sub> + T<sub>2</sub> + T<sup>'</sup></code><br>where:<br>if <code>I<sub>1</sub> <b>⋂</b> F<sub>1</sub></code> than <code>I<sup>'</sup> = I<sub>2</sub></code> else <code>I<sup>'</sup> = ∅</code><br>and <code>T<sup>'</sup> = {<s<sub>1</sub>, a, s<sub>2</sub>> ∈ S<sub>1</sub> x &Sigma; x I<sub>2</sub>: <s<sub>1</sub>, a, s<sub>1</sub><sup>'</sup>> ∈ T<sub>1</sub></code> for some <code>s<sub>1</sub><sup>'</sup> ∈ F<sub>1</sub>}</code>|
+| <code>e ∈ RegExp</code>:<br><code>e<sup>*</sup> ∈ RegExp</code> | <code>S<sub>*</sub> = S</code>, <code>I<sub>*</sub> = I</code><br><code>F<sub>*</sub> = F + I</code>, <code>T = T + T<sup>'</sup></code><br>where:<br><code>T<sup>'</sup> = {<s<sub>1</sub>, a, s<sub>2</sub>> ∈ S x &Sigma; x I: <s<sub>1</sub>, a, s<sub>1</sub><sup>'</sup>> ∈ T</code> for some <code>s<sub>1</sub><sup>'</sup> ∈ F}</code> |
