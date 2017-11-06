@@ -1,7 +1,6 @@
 from typing import List
 
 import ast
-from automata import NDAutomata
 from tranlator import translate
 from util import verify_expression
 
@@ -17,10 +16,10 @@ def testing(filename: str, debug: bool) -> bool:
         raise AppError("Can't open file {}.".format(filename))
 
     all_passed = True
-    lines: List[str] = file.readlines()
+    lines = file.readlines()
     for i in range(0, len(lines)):
         line = lines[i].rstrip()
-        test_case: List[str] = line.split(':')
+        test_case = line.split(':')
         if len(test_case) < 1 or len(test_case) > 3:
             raise AppError("The line has to have 2 or 3 expressions divided by colon, has: {}".format(line)) from None
 
@@ -38,8 +37,8 @@ def testing(filename: str, debug: bool) -> bool:
             print(true_exprs, false_exprs, test_case)
             raise AppError("There should be at least one expression.")
 
-        tree: ast.AST = ast.parse(regexp)
-        machine: NDAutomata = translate(tree)
+        tree = ast.parse(regexp)
+        machine = translate(tree)
 
         print()
         print(regexp)

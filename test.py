@@ -1,7 +1,6 @@
 from typing import Tuple, List
 
 import ast
-from automata import NDAutomata
 from tranlator import translate
 from util import verify_expression
 
@@ -24,8 +23,8 @@ tests: List[Test] = [("a|b", ["a", "b", "ab"], [True, True, False]),
 
 passed = True
 for expression in tests:
-    tree: ast.AST = ast.parse(expression[0])
-    machine: NDAutomata = translate(tree)
+    tree = ast.parse(expression[0])
+    machine = translate(tree)
 
     for i in range(0, len(expression[1])):
         if verify_expression(machine, expression[1][i]) != expression[2][i]:
