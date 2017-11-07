@@ -8,6 +8,10 @@
 - [x] create function that transforms regular expression AST into
 automata;
 - [x] create an application that receives the representation of regular expression and some expression and checks whether the statement satisfies the regexp condition.
+- [ ] create data structure for deterministic automata;
+- [ ] create algorithm for determinization(with deletion of dead-end and unreachable states);
+- [ ] create algorithm for minimization(reduction);
+- [ ] create algorithm for defragmentation(do index numbers of states consistent).
 
 ## How to install and run
 
