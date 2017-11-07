@@ -1,6 +1,6 @@
 from .ndautomata import *
-from .dautomata import *
+from .detautomata import *
 
 __all__ = []
 __all__ += ndautomata.__all__
-__all__ += dautomata.__all__
+__all__ += detautomata.__all__

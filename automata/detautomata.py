@@ -3,7 +3,7 @@ from typing import *
 __all__ = []
 
 
-class Transitions:
+class DetTransitions:
     """Class that implements transition table for deterministic state machine."""
 
     def __init__(self, d: Dict[int, Dict[str, int]]):
@@ -40,7 +40,7 @@ class Transitions:
         Doesn't work if src == dst.
         """
 
-        if type(dst) != Transitions:
+        if type(dst) != DetTransitions:
             raise TypeError("dst must be Transitions.")
         if self is dst:
             raise Exception("Can't perform transformation on the same collection.")
@@ -49,10 +49,10 @@ class Transitions:
             dst.add(trans_orig(origin), symb, trans_end(end))
 
 
-class DAutomata:
+class DetAutomata:
     """The class that implements deterministic state machine."""
 
-    def __init__(self, trans: Transitions, fins: Set[int]):
+    def __init__(self, trans: DetTransitions, fins: Set[int]):
         self.__state = 0
         self.__trans = trans
         self.__finals = fins
@@ -75,7 +75,7 @@ class DAutomata:
             return False
         return True
 
-    def reset(self):
+    def reset(self) -> None:
         """Resent current states."""
         self.__state = 0
 
