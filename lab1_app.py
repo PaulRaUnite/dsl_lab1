@@ -1,6 +1,7 @@
 from typing import List
 
 import ast
+from automata.dfa import DFA
 from tranlator import translate
 from util import verify_expression
 
@@ -38,7 +39,8 @@ def testing(filename: str, debug: bool) -> bool:
             raise AppError("There should be at least one expression.")
 
         tree = ast.parse(regexp)
-        machine = translate(tree)
+        machine = DFA.from_ndfa(translate(tree)).minify()
+        print(machine)
 
         print()
         print(regexp)
