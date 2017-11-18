@@ -1,7 +1,7 @@
 from typing import List
 
 import ast
-from automata.dfa import DFA
+from automata import DFA
 from tranlator import translate
 from util import verify_expression
 
@@ -19,7 +19,7 @@ def testing(filename: str, debug: bool) -> bool:
     all_passed = True
     lines = file.readlines()
     for i in range(0, len(lines)):
-        line = lines[i].rstrip()
+        line = lines[i][:-1]
         test_case = line.split(':')
         if len(test_case) < 1 or len(test_case) > 3:
             raise AppError("The line has to have 2 or 3 expressions divided by colon, has: {}".format(line)) from None
@@ -39,8 +39,8 @@ def testing(filename: str, debug: bool) -> bool:
             raise AppError("There must be at least one expression.")
 
         tree = ast.parse(regexp)
+        # machine = translate(tree) #NDFA
         machine = DFA.from_ndfa(translate(tree)).minify()
-        print(machine)
 
         print()
         print(regexp)
@@ -82,7 +82,7 @@ def main():
             passed = testing(filename, False)
             if passed:
                 print("\nAll cases passed.\n")
-        except Exception as e:
+        except AppError as e:
             print("Error has occured:", e)
             print("Try another file.")
 

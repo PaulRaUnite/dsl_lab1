@@ -30,7 +30,7 @@ def scan(s: str) -> list:
                 tokens.append(char)
                 escaped = False
             else:
-                raise BadEscapedSymbolError("\\" + char + " isn't allowed.")
+                raise BadEscapedSymbolError("\\" + char + " is not allowed.")
         else:
             if char == '\\':
                 escaped = True
@@ -40,6 +40,6 @@ def scan(s: str) -> list:
                 tokens.append(char)
                 escaped = False
     if escaped:
-        raise UnexpectedEndError("Escape should not be at the end of expression.")
+        raise UnexpectedEndError("Escape cannot be at the end of expression.")
 
     return tokens

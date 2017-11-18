@@ -5,8 +5,8 @@ from ast.tree import Node, Concatenation, Decision, Clini, Value, AST
 __all__ = ["parse"]
 
 
-def is_spec_symb(token, symb: str) -> bool:
-    """Checks is token a Special symbol symb or not."""
+def is_spec_symb(token, symb: chr) -> bool:
+    """Checks is token a Special symbol of symb or not."""
     return type(token) is Special and token.s == symb
 
 
@@ -102,13 +102,6 @@ def parse_node(tokens: list) -> Node:
     """Returns AST tree that represents the tokens."""
     left, op_type, right = next_op(tokens)
 
-    # print("left ", end="")
-    # for s in left:
-    #     print(s, end=" ")
-    # print("right ", end="")
-    # for s in right:
-    #     print(s, end=" ")
-    # print()
     if op_type == "+":
         return Concatenation(parse_node(left), parse_node(right))
     elif op_type == "|":
@@ -130,7 +123,7 @@ def optimize_node(node: Node) -> Node:
             if children[0].value() == '*':
                 return optimize_node(children[0])
         else:
-            raise Exception("Operation with one argument is not Clini operation.")
+            raise Exception("Operation with one argument is not Clini closure.")
 
     return node
 

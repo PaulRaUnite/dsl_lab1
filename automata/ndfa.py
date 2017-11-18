@@ -148,10 +148,10 @@ class NDFA:
         return len(self.step_states.intersection(self.F)) > 0
 
     @classmethod
-    def shifting(cls, self, n: int) -> 'NDFA':
+    def shifting(cls, self: 'NDFA', n: int) -> 'NDFA':
         """
         Adds the number for all states and returns new automata.
-        Helps to not to intersect two different machines while merging.
+        Helps not to intersect two different machines while merging.
         """
 
         # Create new transition graph with shifted states.

@@ -28,7 +28,7 @@ class AST:
     """AST(abstract syntax tree) is a structure to represent the regular expressions."""
 
     def __init__(self, root: Node):
-        self.__root: Node = root
+        self.__root = root
 
     def root(self) -> Node:
         return self.__root

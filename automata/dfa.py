@@ -2,7 +2,7 @@ from typing import *
 
 from automata import NDFA
 
-__all__ = []
+__all__ = ["DFA"]
 
 
 class DetTransitions:
@@ -201,7 +201,7 @@ class DFA:
     # please visit /readme.md#minification.
     def minify(self) -> 'DFA':
         """Minifies the DFA."""
-        # Generation of triangle matrix.
+        # Generation of triangular matrix.
         # It looks like:
         # s1\s2 0 1 2 3
         #   1:  0

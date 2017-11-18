@@ -3,7 +3,10 @@ from automata import NDFA
 
 
 def translate_node(node: Node) -> NDFA:
-    """Creates non-deterministic automata of regular expressions using the following node recursively."""
+    """
+    Creates non-deterministic automata of regular
+    expressions using the following node recursively.
+    """
 
     children: tuple = node.children()
 
