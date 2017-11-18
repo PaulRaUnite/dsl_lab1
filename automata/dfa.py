@@ -154,6 +154,8 @@ class DFA:
         """Checks whether the automata is into one of finite states."""
         return self.__state in self.F
 
+    # The class method provides determinization,
+    # for further information, please visit /readme.md#determinization.
     @classmethod
     def from_ndfa(cls, nd: NDFA) -> 'DFA':
         """Transforms NDFA to DFA."""
@@ -194,6 +196,9 @@ class DFA:
         new_F = known.finals()
         return cls(new_T, new_F)
 
+    # The method minifies the DFA,
+    # for complete explanation of the algorithm
+    # please visit /readme.md#minification.
     def minify(self) -> 'DFA':
         """Minifies the DFA."""
         # Generation of triangle matrix.

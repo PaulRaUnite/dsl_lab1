@@ -36,7 +36,7 @@ def testing(filename: str, debug: bool) -> bool:
 
         if (len(true_exprs) + len(false_exprs)) == 0:
             print(true_exprs, false_exprs, test_case)
-            raise AppError("There should be at least one expression.")
+            raise AppError("There must be at least one expression.")
 
         tree = ast.parse(regexp)
         machine = DFA.from_ndfa(translate(tree)).minify()
