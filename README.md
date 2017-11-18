@@ -34,7 +34,7 @@ Regular expressions is a way to define some regular language(`L`).
 - `|` &mdash; logical `or` statement (priority __1__): `a|b` &mdash; `L = {a, b}`;
 - `ab` &mdash; is `a+b` there `+` is concatenation (priority __2__): `ab` &mdash; `L = {ab}`;
 - `a*` &mdash; `*` is Clini closure (priority __3__), it means that expression
-to which it is performed can occur any number of times(>= 0): `a` &mdash; `L = {e,a,aa,aaa,...}`, where `e` is empty word;
+to which it is performed can occur any number of times(>= 0): `a*` &mdash; `L = {e,a,aa,aaa,...}`, where `e` is empty word;
 - parenthesis `(` and `)`, as usual, performs prioritization of some subexpression.
 
 So, the following words and so on are allowed:
@@ -72,7 +72,7 @@ It means, that you can't use colon and semicolon in your expressions, but it is 
 
 ### About regular expression parsing
 
-After [scanning](/ast/scanner.py) (it is really simple), parsing is performed. List of tokens is recursively separated by one of the above operators with respect to their priority and parenthesis, and in this way it create AST of the expression.
+After [scanning](/ast/scanner.py) (it is really simple), [parsing](/ast/parser.py) is performed. List of tokens is recursively separated by one of the above operators with respect to their priority and parenthesis, and in this way it create AST of the expression.
 
 __Note__: 
 All the actions of parsing occur on the "first layer" of the expression, and here is what I mean.
@@ -81,7 +81,7 @@ Let's say that we have regular expression `(ab)|(c|d)`. The "first layer" of the
 
 ### About translating
 
-After parsing string to the AST, translation is performed.
+After parsing string to the AST, [translation](/tranlator/translator.py) is performed.
 
 There is `translate` function, that recursively performs the following steps:
 - receive children for the node;
@@ -93,7 +93,7 @@ There is `translate` function, that recursively performs the following steps:
 
 ### About state machines
 
-`automata` package implements non-deterministic(NDFA) and deterministic(DFA) finite state machines.
+`automata` package implements non-deterministic([NDFA](/automata/ndfa.py)) and deterministic([DFA](/automata/dfa.py)) finite state machines.
 
 Finite is about number of states.
 
