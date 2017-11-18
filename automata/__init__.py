@@ -1,6 +1,6 @@
-from .nondetautomata import *
-from .detautomata import *
+from .ndfa import *
+from .dfa import *
 
 __all__ = []
-__all__ += nondetautomata.__all__
-__all__ += detautomata.__all__
+__all__ += ndfa.__all__
+__all__ += dfa.__all__

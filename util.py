@@ -1,7 +1,7 @@
-from automata import NonDetAutomata
+from automata import NDFA
 
 
-def verify_expression(m: NonDetAutomata, s: str) -> bool:
+def verify_expression(m, s: str) -> bool:
     """Checks whether expression satisfy automata."""
     m.reset()
     for symb in s:

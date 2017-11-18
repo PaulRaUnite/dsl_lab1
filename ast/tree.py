@@ -6,15 +6,15 @@ class Node:
 
     def __init__(self, value: chr, left: 'Node', right: 'Node'):
         self.__value: chr = value
-        self.__lchild: Node = left
-        self.__rchild: Node = right
+        self.lchild: Node = left
+        self.rchild: Node = right
 
     def children(self) -> tuple:
-        if self.__lchild is not None:
-            if self.__rchild is not None:
-                return self.__lchild, self.__rchild
+        if self.lchild is not None:
+            if self.rchild is not None:
+                return self.lchild, self.rchild
             else:
-                return self.__lchild,
+                return self.lchild,
         return ()
 
     def value(self) -> chr:
@@ -52,7 +52,7 @@ class Concatenation(Node):
         super().__init__('+', left, right)
 
     def __str__(self) -> str:
-        return "{}+{}".format(self.__lchild.__str__(), self.__rchild.__str__())
+        return "{}+{}".format(self.lchild.__str__(), self.rchild.__str__())
 
 
 class Decision(Node):
@@ -61,7 +61,7 @@ class Decision(Node):
         super().__init__('|', left, right)
 
     def __str__(self) -> str:
-        return "({}|{})".format(self.__lchild.__str__(), self.__rchild.__str__())
+        return "({}|{})".format(self.lchild.__str__(), self.rchild.__str__())
 
 
 class Clini(Node):
@@ -70,4 +70,4 @@ class Clini(Node):
         super().__init__('*', child, None)
 
     def __str__(self) -> str:
-        return "({})*".format(self.__lchild.__str__())
+        return "({})*".format(self.lchild.__str__())
