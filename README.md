@@ -100,6 +100,13 @@ If AST is empty,there is only one automaton: `I={0}, F={0}, T={}`.
 
 `automaton` package implements non-deterministic([NDFA](/automaton/ndfa.py)) and deterministic([DFA](/automaton/dfa.py)) finite state machines.
 
+At first, let me define all sets that non-deterministic automaton by definition must have:
+- <code>&Sigma;</code> is a vocabulary of symbols;
+- `S` is a set of states;
+- `I` is a set of initial(start) states, where `I ⊂ S`;
+- `F` is a set of final states, where `F ⊂ S`;
+- `T` is a set of transitions, where <code>T ⊂ S x &Sigma; x S</code>.
+
 Finite is about number of states.
 
 Non-determinism means that from the same state can exist more than one transition with the same "trigger" symbol.
@@ -110,22 +117,13 @@ Transitions of NDFA are stored as dictionary of dictionaries of sets (or in Pyth
 
 Transitions of DFA are stored as `Dict[int, Dict[chr, int]]`, there are no multiple transitions of the same symbol for one state, `0` is always start state, can have multiple final states.
 
-The implementations of machines use iteration mechanism for word verifying, not graph depth search.
+The implementations of machines use iteration mechanism for word verifying, not graph depth search. When some symbol is "putted" into automaton, it tries to transit from current state(s) by existing transition(s) to new state(s). Let me show: there are <code>C = {s<sub>1</sub>, s<sub>2</sub>, ...}</code> &mdash; current states of a automaton, `a` &mdash; some symbol, `T` &mdash; transitions, `nC` &mdash; new current states. For every <code>s<sub>i</sub> ∈ C</code> try to get <code>{s<sub>i</sub>, a, n} ∈ T</code>, and if it exists, <code>nC = nC U {n}</code>.
 
-Forks with transitions of the same trigger symbol are allowed in NDFA, of course. In the machine, this case is handled by multiple current states of the machine (to be exact, set of states). If transition fork occurs for some state, the state will be split up into multiple states and they will be added to current states instead of previous one.
-
-DFA works the same way, but there is only one moved state and there are no forks of the same symbol.
+DFA works the same way, but there is only one current state (`C = {s}`) and there are no forks of the same symbol (there are no `{s, a, n}, {s, a, k} ∈ T`, that `k ≠ n`).
 
 #### About algorithms of NDFA joining
 
-At first, let me define all sets that non-deterministic automaton by definition must have:
-- <code>&Sigma;</code> is a vocabulary of symbols;
-- `S` is a set of states;
-- `I` is a set of initial(start) states, where `I ⊂ S`;
-- `F` is a set of final states, where `F ⊂ S`;
-- `T` is a set of transitions, where <code>T ⊂ S x &Sigma; x S</code>.
-
-So, following rules are applied to join state machines with each other(`OR` is for `|`(decision) and `AND` for `+`(concatenation)):
+The following rules are applied to join state machines with each other(`OR` is for `|`(decision) and `AND` for `+`(concatenation)):
 
 |RegExp                 | Machine creation |
 |-----------------------|------------------|
