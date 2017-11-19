@@ -1,6 +1,6 @@
 from typing import Dict, Set, Tuple
 
-from automata import abstract
+from automaton import abstract
 
 __all__ = ["NDFA"]
 
@@ -80,9 +80,9 @@ class NonDetTransitions:
 
 class NDFA:
     """
-    NDFA is a class that represents non-deterministic finite automata.
+    NDFA is a class that represents non-deterministic finite automaton.
 
-    The following realization assumes that every automata can have multiple
+    The following realization assumes that every automaton can have multiple
     entry states and can have multiple final states.
     """
 
@@ -143,14 +143,14 @@ class NDFA:
         self.step_states = self.I.copy()
 
     def is_final_state(self) -> bool:
-        """Checks whether the automata is into one of finite states."""
+        """Checks whether the automaton is into one of finite states."""
         # If some current state in final state.
         return len(self.step_states.intersection(self.F)) > 0
 
     @classmethod
     def shifting(cls, self: 'NDFA', n: int) -> 'NDFA':
         """
-        Adds the number for all states and returns new automata.
+        Adds the number for all states and returns new automaton.
         Helps not to intersect two different machines while merging.
         """
 
@@ -174,7 +174,7 @@ class NDFA:
         return self._biggest_state + 1
 
     def __str__(self) -> str:
-        """Returns string representation of the automata."""
+        """Returns string representation of the automaton."""
         return "Machine (\n" \
                "    I: {}\n" \
                "    T: {}\n" \
@@ -183,36 +183,36 @@ class NDFA:
                "    Cur. states: {}\n)".format(self.I, self.T, self.F, self._biggest_state, self.step_states)
 
     def copy(self) -> 'NDFA':
-        """Copies the automata."""
+        """Copies the automaton."""
 
         return NDFA(self.I.copy(), self.F.copy(), self.T.copy())
 
     @classmethod
     def by_value(cls, s: chr) -> 'NDFA':
-        """Creates the automata from the single character."""
+        """Creates the automaton from the single character."""
 
         return cls({0}, {1}, NonDetTransitions({0: {s: {1}}}))
 
     @classmethod
     def by_concatenation(cls, m1: 'NDFA', m2: 'NDFA') -> 'NDFA':
-        """Constructs a new automata from existing two by concatenation."""
+        """Constructs a new automaton from existing two by concatenation."""
 
         # Do the machines not overlapping.
         shift: int = len(m1)
         m2 = NDFA.shifting(m2, shift)
 
-        # Start states of new automata equals
-        # to the states of the first automata.
+        # Start states of new automaton equals
+        # to the states of the first automaton.
         new_I = m1.I.copy()
-        # Final states of new automata equals
-        # to the states of the first automata.
+        # Final states of new automaton equals
+        # to the states of the first automaton.
         new_F = m2.F.copy()
 
-        # But if there are some states of left automata
+        # But if there are some states of left automaton
         # that initial and final in the same time
         # (it means there is some clini closure),
-        # the part of new automata can be missed by some paths
-        # so start states of the second automata must be added too.
+        # the part of new automaton can be missed by some paths
+        # so start states of the second automaton must be added too.
         I_and_F = m1.I.intersection(m1.F)
         if len(I_and_F) > 0:
             new_I = new_I.union(m2.I)
@@ -233,7 +233,7 @@ class NDFA:
 
     @classmethod
     def by_decision(cls, m1: 'NDFA', m2: 'NDFA') -> 'NDFA':
-        """Constructs a new automata from existing two by disjunction."""
+        """Constructs a new automaton from existing two by disjunction."""
 
         # Do the machines not overlapping.
         shift: int = len(m1)
@@ -248,7 +248,7 @@ class NDFA:
 
     @classmethod
     def by_closure(cls, m: 'NDFA') -> 'NDFA':
-        """Constructs new automata performing Clini closure."""
+        """Constructs new automaton performing Clini closure."""
 
         # new start-finish state
         final_start = m._biggest_state + 1

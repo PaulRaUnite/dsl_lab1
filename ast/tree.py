@@ -39,6 +39,7 @@ class AST:
 
 class Value(Node):
     """Value is a node that represents leaves(actual symbols)."""
+
     def __init__(self, s: chr):
         super().__init__(s, None, None)
 
@@ -48,6 +49,7 @@ class Value(Node):
 
 class Concatenation(Node):
     """Concatenation is a node that represents + operation."""
+
     def __init__(self, left: Node, right: Node):
         super().__init__('+', left, right)
 
@@ -57,6 +59,7 @@ class Concatenation(Node):
 
 class Decision(Node):
     """Decision is a node that represents | operation."""
+
     def __init__(self, left: Node, right: Node):
         super().__init__('|', left, right)
 
@@ -66,6 +69,7 @@ class Decision(Node):
 
 class Clini(Node):
     """Clini is a node that represents * operation."""
+
     def __init__(self, child: Node):
         super().__init__('*', child, None)
 

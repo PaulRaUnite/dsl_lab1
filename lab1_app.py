@@ -1,7 +1,7 @@
 from typing import List
 
 import ast
-from automata import DFA
+from automaton import DFA
 from tranlator import translate
 from util import verify_expression
 
@@ -40,7 +40,7 @@ def testing(filename: str, debug: bool) -> bool:
 
         tree = ast.parse(regexp)
         # machine = translate(tree) #NDFA
-        machine = DFA.from_ndfa(translate(tree)).minify()
+        machine = DFA.from_ndfa(translate(tree)).minimize()
 
         print()
         print(regexp)

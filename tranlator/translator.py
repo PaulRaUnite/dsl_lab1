@@ -1,10 +1,10 @@
 from ast import Node, AST
-from automata import NDFA
+from automaton import NDFA
 
 
 def translate_node(node: Node) -> NDFA:
     """
-    Creates non-deterministic automata of regular
+    Creates non-deterministic automaton of regular
     expressions using the following node recursively.
     """
 
@@ -31,5 +31,5 @@ def translate_node(node: Node) -> NDFA:
 
 
 def translate(ast: AST) -> NDFA:
-    """Translate AST to non-deterministic finite automata."""
+    """Translate AST to non-deterministic finite automaton."""
     return translate_node(ast.root())

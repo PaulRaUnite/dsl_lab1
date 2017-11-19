@@ -1,6 +1,6 @@
 from typing import *
 
-from automata import NDFA
+from automaton import NDFA
 
 __all__ = ["DFA"]
 
@@ -138,7 +138,7 @@ class DFA:
         self.__biggest_state: int = max_state
 
     def put(self, symb: str) -> bool:
-        """Do one move inside the automata."""
+        """Do one move inside the automaton."""
         try:
             self.__state = self.T.get_end(self.__state, symb)
         except KeyError:
@@ -150,8 +150,8 @@ class DFA:
         """Resent current states."""
         self.__state = 0
 
-    def is_final_state(self) -> bool:
-        """Checks whether the automata is into one of finite states."""
+    def in_final_state(self) -> bool:
+        """Checks whether the automaton is into one of finite states."""
         return self.__state in self.F
 
     # The class method provides determinization,
@@ -159,13 +159,13 @@ class DFA:
     @classmethod
     def from_ndfa(cls, nd: NDFA) -> 'DFA':
         """Transforms NDFA to DFA."""
-        # Mapping for current automata.
+        # Mapping for current automaton.
         known = Mapping()
         start_point = known.map((len((nd.I.intersection(nd.F))) > 0, nd.I.copy()))
         queue: List[int] = [start_point]
         # Set of numbers of new but processed states.
         processed: Set[int] = set()
-        # transitions of new automata
+        # transitions of new automaton
         new_T = DetTransitions()
         while True:
             try:
@@ -198,8 +198,8 @@ class DFA:
 
     # The method minifies the DFA,
     # for complete explanation of the algorithm
-    # please visit /readme.md#minification.
-    def minify(self) -> 'DFA':
+    # please visit /readme.md#minimization.
+    def minimize(self) -> 'DFA':
         """Minifies the DFA."""
         # Generation of triangular matrix.
         # It looks like:
@@ -273,7 +273,7 @@ class DFA:
 
         viewed: Set[int] = set()
         eq_sets: List[Set[int]] = []
-        # For all states in the automata,
+        # For all states in the automaton,
         # receive their equality sets.
         for state in range(self.__biggest_state + 1):
             if state not in viewed:
@@ -309,7 +309,7 @@ class DFA:
         return DFA(new_T, new_F)
 
     def __str__(self) -> str:
-        """Returns string representation of the automata."""
+        """Returns string representation of the automaton."""
         return "state: {}\n" \
                "trans: {}\n" \
                "final: {}\n" \

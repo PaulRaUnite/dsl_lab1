@@ -1,10 +1,7 @@
-from automata import NDFA
-
-
-def verify_expression(m, s: str) -> bool:
-    """Checks whether expression satisfy automata."""
-    m.reset()
-    for symb in s:
-        if not m.put(symb):
+def verify_expression(a, w: str) -> bool:
+    """Checks whether word s satisfy automaton a"""
+    a.reset()
+    for symb in w:
+        if not a.put(symb):
             return False
-    return m.is_final_state()
+    return a.in_final_state()

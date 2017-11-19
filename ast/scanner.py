@@ -9,6 +9,7 @@ escapedSymbols = ['\\', '(', ')', '*', '|']
 
 class Special:
     """Represents all special symbols"""
+
     def __init__(self, seq: str):
         self.s = seq
 
