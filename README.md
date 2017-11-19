@@ -8,7 +8,7 @@
 - [x] create function that transforms regular expression AST into
 automaton;
 - [x] create an application that receives the representation of regular expression and some word and than checks whether the word satisfies the regexp condition.
-- [x] create data structure for deterministic automaton([DFA](https://en.wikipedia.org/wiki/Nondeterministic_finite_automaton));
+- [x] create data structure for deterministic automaton([DFA](https://en.wikipedia.org/wiki/Deterministic_finite_automaton));
 - [x] create algorithm for determinization(with removing of unreachable states);
 - [x] create algorithm for [minimization](https://en.wikipedia.org/wiki/DFA_minimization).
 
@@ -136,6 +136,8 @@ The following rules are applied to join state machines with each other(`OR` is f
 
 The implementation of NDFA determinization uses [powerset construction technique](https://en.wikipedia.org/wiki/Powerset_construction)(see example chapter). The article above is good, but uses epsilon moves which the implementation haven't, so keep it in mind.
 
+You can find the implementation as class method `from_ndfa` of `DFA` class.
+
 Briefly, there are set of viewed **sets** of states(`V`), queue of state sets(`Q`) and set of new transitions(`nT`). Than the algorithm steps look like that:
 
 1. `V = {}`;
@@ -152,6 +154,8 @@ Briefly, there are set of viewed **sets** of states(`V`), queue of state sets(`Q
 #### Minimization
 
 Minimization is a process of merging of equal states.
+
+In the implementation it is represented as method `minimize` of `DFA` class.
 
 Equal states is states that have the same paths to some final states (empty path is also allowed).
 
