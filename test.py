@@ -16,7 +16,8 @@ for expr in expressions:
         print("{:40}error: {}".format(expr, e))
 
 Test = Tuple[str, List[str], List[bool]]
-tests: List[Test] = [("a|b", ["a", "b", "ab"], [True, True, False]),
+tests: List[Test] = [("", ["", "a", "b"], [True, False, False]),
+                     ("a|b", ["a", "b", "ab"], [True, True, False]),
                      ("ab*", ["a", "ab", "aab", "abb"], [True, True, False, True]),
                      ("d(a|b)e*(g|k)", ["daeg", "dbk", "dbeeek", "dcegk", ], [True, True, True, False]),
                      ("a(b|a|c)d*", ["abdddd", "aadd", "acd", "add", "ab", "acc"],

@@ -136,6 +136,8 @@ def optimize(tree: AST) -> AST:
 def parse(regexp: str) -> AST:
     """Returns AST with additional checks and optimizations."""
     tokens = scan(regexp)
+    if len(tokens) == 0:
+        return AST(None)
 
     if not parenthesis_test(tokens):
         raise ParenthesisError("Amount of parenthesis isn't equal.")

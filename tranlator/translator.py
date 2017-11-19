@@ -1,5 +1,6 @@
 from ast import Node, AST
 from automaton import NDFA
+from automaton.ndfa import NonDetTransitions
 
 
 def translate_node(node: Node) -> NDFA:
@@ -32,4 +33,7 @@ def translate_node(node: Node) -> NDFA:
 
 def translate(ast: AST) -> NDFA:
     """Translate AST to non-deterministic finite automaton."""
+
+    if ast.root() is None:
+        return NDFA({0}, {0}, NonDetTransitions())
     return translate_node(ast.root())

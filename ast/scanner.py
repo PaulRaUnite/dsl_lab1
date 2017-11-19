@@ -20,7 +20,7 @@ class Special:
 def scan(s: str) -> list:
     """
     Returns list of tokens.
-    Can throw exceptions.
+    Can raise exceptions.
     """
     tokens: list = []
 
