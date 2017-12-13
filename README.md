@@ -16,7 +16,7 @@ automaton;
 
 Clone/download the repository and execute `python lab1_app.py`. There is no dependencies of external libraries, only standard types, type annotations and local packages.
 
-It works on `python3.6`, so please use the same or newer version.
+It requires `python3.6`, because of type hints.
 
 ### Test set
 
